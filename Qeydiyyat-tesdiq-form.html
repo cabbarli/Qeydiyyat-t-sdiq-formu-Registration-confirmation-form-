@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form</title>
+  <!-- CSS only -->
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+
+<body>
+
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col">
+
+        <form action="#" method="post" class="need-validate" novalidate>
+          <div class="row mt-5 mb-4">
+            <label for="name" class="form-label col-sm-2">İstifadəçi adı:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="name" required aria-labelledby="errorName">
+              <div id="errorName"></div>
+            </div>
+          </div> <!-- row end -->
+          <div class="row mb-4">
+            <label for="e-mail" class="form-label col-sm-2">E-mail:</label>
+            <div class="col-sm-10">
+              <input type="email" class="form-control" id="e-mail" aria-labelledby="errorEmail" required>
+              <div id="errorEmail"></div>
+            </div>
+          </div> <!-- row end -->
+          <div class="row mb-4">
+            <label for="pass" class="form-label col-sm-2">Password:</label>
+            <div class="col-sm-10">
+              <input type="password" id="pass" class="form-control" aria-labelledby="errorPass" required>
+              <div id="errorPass"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="offset-sm-2 col-sm-10 ">
+              <button type="submit" class="btn btn-dark d-block w-100">Göndər</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+
+  <script src="./js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function () {
+      "use strict"
+      let userName = document.querySelector("#name");
+      let userEmail = document.querySelector("#e-mail");
+      let userPass = document.querySelector("#pass");
+      userName.addEventListener("blur", controlUsername);
+      userEmail.addEventListener("blur", controlEmail);
+      userPass.addEventListener("blur", controlPassword);
+      let spacePattern = /^\S*$/;
+      function controlUsername() {
+        let errorNameMessage = document.querySelector("#errorName");
+        if (userName.value.length == 0) {
+          userName.classList.remove("is-valid");
+          userName.classList.add("is-invalid");
+          errorNameMessage.innerHTML = "Ad xanasini bos saxlamayin";
+          return false;
+        } else if (userName.value.length < 3) {
+          userName.classList.remove("is-valid");  
+          userName.classList.add("is-invalid");
+          errorNameMessage.innerHTML = "İstifadəçi adı 2 simvoldan az olmalıdır";
+          return false;
+        } else if (userName.value.length > 21) {
+          userName.classList.remove("is-valid");
+          userName.classList.add("is-invalid");
+          errorNameMessage.innerHTML = '20 simvoldan çox olmamalıdır';
+          return false;
+        } else {
+          userName.classList.remove("is-invalid");
+          userName.classList.add("is-valid");
+          errorNameMessage.innerHTML = "";
+          return true;
+        }
+      }
+      function controlEmail() {
+        let errorEmailMessage = document.querySelector("#errorEmail");
+        const myEmailPattern = /^([a-zA-Z0-9_\-?\.?]){3,}@([a-zA-Z]){3,}\.([a-zA-Z]){2,5}$/;
+        if (spacePattern.test(userEmail.value) && myEmailPattern.test(userEmail.value)) {
+          userEmail.classList.remove("is-invalid");
+          userEmail.classList.add("is-valid");
+          errorEmailMessage.innerHTML = "";
+          return true;
+        } else {
+          userEmail.classList.remove('is-valid');
+          userEmail.classList.add('is-invalid');
+          errorEmailMessage.innerHTML = "Email adresinizi bir daha yoxlayın";
+          return false;
+        }
+      }
+      function controlPassword() {
+        let errorPassMessage = document.querySelector("#errorPass");
+        const passPattern = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
+        if (spacePattern.test(userPass.value) && passPattern.test(userPass.value) && userPass.value.length > 7 && userPass.value.length < 21) {
+          userPass.classList.remove("is-invalid");
+          userPass.classList.add("is-valid");
+          errorPassMessage.innerHTML = "";
+          return true;
+        }else {
+          userPass.classList.remove('is-valid');
+          userPass.classList.add('is-invalid');
+          errorPassMessage.innerHTML = 'Şifreniz 8 - 20 simvol arası olsun, boşluq buraxmayın!. Böyük-kiik hərf, rəqəm və ! @ # $ % ^ & * simvollarindan  istifade edin!';
+          return false;
+        }
+      }
+      let myForm = document.querySelector(".need-validate");
+      myForm.addEventListener("submit", function (e) {
+        if (!myForm.checkValidity() ||
+          !controlUsername() ||
+          !controlEmail() ||
+          !controlPassword()) {
+          e.preventDefault();
+          e.stopPropagation();
+        };
+      }, false);
+     
+    })()
+  </script>
+</body>
+
+</html>
+
+
+
+

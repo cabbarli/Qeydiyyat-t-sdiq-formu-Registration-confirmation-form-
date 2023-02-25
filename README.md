@@ -1,1 +1,1 @@
-# Qeydiyyat-t-sdiq-formu-Registration-confirmation-form-
+# Qeydiyyat-t-sdiq-formu/ Registration-confirmation-form
